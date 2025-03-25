@@ -5,3 +5,9 @@
 // Podpowiedź: return response.end();
 
 // 🔧 Wyeksportuj funkcję 'logoutRouting', aby inne moduł mogły jej używać.
+const logoutRouting = (req,res) => {
+    res.setHeader("Content-Type", "text/html")
+    return res.end()
+}
+
+module.exports = logoutRouting;

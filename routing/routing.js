@@ -14,3 +14,37 @@
 //  };
 
 // 🔧 Wyeksportuj funkcję 'requestRouting', aby inne moduł mogły jej używać.
+
+
+const STATUS_CODE = require("../constants/statusCode");
+const productRouting = require("./product");
+const homeRouting = require("./home")
+const logoutRouting = require("./logout")
+
+
+const requestRouting = (request, response) => {
+    const logMessage = (type, message) => {
+        console.log(`[${type}] ${new Date().toISOString()} - ${message}`);
+    };
+
+    logMessage("INFO", `Metoda: ${request.method}, URL: ${request.url}`);
+
+    if (request.url === "/") {
+        return homeRouting(request, response);
+    } else if (request.url.startsWith("/product")) {
+        return productRouting(request, response);
+    } else if (request.url === "/logout") {
+        return logoutRouting(request, response);
+    } else if (request.url === "/kill") {
+        logMessage("PROCESS", "Wylogowanie wywołane, aplikacja zamknie się.");
+        process.exit();
+    } else {
+        response.statusCode = STATUS_CODE.NOT_FOUND;
+        response.setHeader("Content-Type", "text/plain");
+        response.write("404 Not Found");
+        logMessage("ERROR", `Żądany URL ${request.url} nie istnieje.`);
+        return response.end();
+    }
+};
+
+module.exports = requestRouting;

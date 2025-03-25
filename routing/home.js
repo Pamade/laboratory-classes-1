@@ -5,3 +5,9 @@
 // Podpowiedź: return response.end();
 
 // 🔧 Wyeksportuj funkcję 'homeRouting', aby inne moduł mogły jej używać.
+const homeRouting = (req,res) => {
+    res.setHeader("Content-Type", "text/html")
+    return res.end()
+}
+
+module.exports = homeRouting;
